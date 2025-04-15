@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import MainLayout from "./components/layout/MainLayout";
 import TradeForm from "./pages/TradeForm";
 import { TradeProvider } from "./contexts/TradeContext";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<MainLayout><Dashboard /></MainLayout>} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
             <Route path="/trades" element={<MainLayout><Trades /></MainLayout>} />
             <Route path="/trades/new" element={<MainLayout><TradeForm /></MainLayout>} />
             <Route path="/trades/:id" element={<MainLayout><TradeForm /></MainLayout>} />
