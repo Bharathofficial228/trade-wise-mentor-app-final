@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import { 
   User, 
   Bell, 
@@ -24,6 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const Settings = () => {
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
   const [name, setName] = useState("John Trader");
   const [email, setEmail] = useState("john@example.com");
   
@@ -308,18 +310,29 @@ const Settings = () => {
               <div className="space-y-2">
                 <Label>Theme</Label>
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="border rounded-md p-3 cursor-pointer relative hover:border-primary active:border-primary">
+                  <div 
+                    className={`border rounded-md p-3 cursor-pointer relative hover:border-primary ${theme === 'light' ? 'border-primary' : ''}`}
+                    onClick={() => setTheme('light')}
+                  >
                     <div className="h-20 bg-white mb-2 rounded border"></div>
                     <p className="text-sm text-center">Light</p>
-                    <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />
+                    {theme === 'light' && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />}
                   </div>
-                  <div className="border rounded-md p-3 cursor-pointer relative hover:border-primary">
+                  <div 
+                    className={`border rounded-md p-3 cursor-pointer relative hover:border-primary ${theme === 'dark' ? 'border-primary' : ''}`}
+                    onClick={() => setTheme('dark')}
+                  >
                     <div className="h-20 bg-black mb-2 rounded border"></div>
                     <p className="text-sm text-center">Dark</p>
+                    {theme === 'dark' && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />}
                   </div>
-                  <div className="border rounded-md p-3 cursor-pointer relative hover:border-primary">
+                  <div 
+                    className={`border rounded-md p-3 cursor-pointer relative hover:border-primary ${theme === 'system' ? 'border-primary' : ''}`}
+                    onClick={() => setTheme('system')}
+                  >
                     <div className="h-20 bg-gradient-to-b from-white to-black mb-2 rounded border"></div>
                     <p className="text-sm text-center">System</p>
+                    {theme === 'system' && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />}
                   </div>
                 </div>
               </div>

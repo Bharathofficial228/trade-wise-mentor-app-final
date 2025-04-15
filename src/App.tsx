@@ -2,6 +2,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
@@ -20,29 +21,31 @@ import LandingPage from "./pages/LandingPage";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TradeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
-            <Route path="/trades" element={<MainLayout><Trades /></MainLayout>} />
-            <Route path="/trades/new" element={<MainLayout><TradeForm /></MainLayout>} />
-            <Route path="/trades/:id" element={<MainLayout><TradeForm /></MainLayout>} />
-            <Route path="/playbooks" element={<MainLayout><Playbooks /></MainLayout>} />
-            <Route path="/calendar" element={<MainLayout><Calendar /></MainLayout>} />
-            <Route path="/achievements" element={<MainLayout><Achievements /></MainLayout>} />
-            <Route path="/stats" element={<MainLayout><Statistics /></MainLayout>} />
-            <Route path="/settings" element={<MainLayout><Settings /></MainLayout>} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </TradeProvider>
-  </QueryClientProvider>
+  <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <QueryClientProvider client={queryClient}>
+      <TradeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
+              <Route path="/trades" element={<MainLayout><Trades /></MainLayout>} />
+              <Route path="/trades/new" element={<MainLayout><TradeForm /></MainLayout>} />
+              <Route path="/trades/:id" element={<MainLayout><TradeForm /></MainLayout>} />
+              <Route path="/playbooks" element={<MainLayout><Playbooks /></MainLayout>} />
+              <Route path="/calendar" element={<MainLayout><Calendar /></MainLayout>} />
+              <Route path="/achievements" element={<MainLayout><Achievements /></MainLayout>} />
+              <Route path="/stats" element={<MainLayout><Statistics /></MainLayout>} />
+              <Route path="/settings" element={<MainLayout><Settings /></MainLayout>} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </TradeProvider>
+    </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
