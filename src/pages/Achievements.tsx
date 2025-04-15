@@ -1,436 +1,241 @@
-
-import { 
-  Award, 
-  BadgeCheck, 
-  Flame, 
-  TrendingUp, 
-  Target, 
-  BookOpen, 
-  CircleDollarSign, 
-  Clock, 
-  Calendar, 
-  BarChart2, 
-  Heart, 
-  Shield, 
-  Sparkles
-} from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-
-const Achievements = () => {
-  return (
-    <div className="space-y-6 animate-fade-in">
-      <header>
-        <h1 className="text-3xl font-bold text-foreground">Achievements</h1>
-        <p className="text-muted-foreground mt-1">Track your progress and unlock new milestones</p>
-      </header>
-      
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <SummaryCard 
-          title="Level" 
-          value="7" 
-          icon={<Sparkles className="h-5 w-5 text-accent" />} 
-          description="Consistent Trader"
-        />
-        <SummaryCard 
-          title="Badges" 
-          value="14/32" 
-          icon={<BadgeCheck className="h-5 w-5 text-primary" />} 
-          description="44% Unlocked"
-        />
-        <SummaryCard 
-          title="Streak" 
-          value="8 Days" 
-          icon={<Flame className="h-5 w-5 text-destructive" />} 
-          description="Current Streak"
-        />
-        <SummaryCard 
-          title="Experience" 
-          value="3,450" 
-          icon={<Award className="h-5 w-5 text-secondary" />} 
-          description="550 to Level 8"
-        />
-      </div>
-      
-      {/* Level Progress */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Level Progress</CardTitle>
-          <CardDescription>4,000 XP needed for Level 8</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex justify-between text-sm">
-              <div className="flex items-center">
-                <Badge className="mr-2 bg-accent text-accent-foreground">Level 7</Badge>
-                <span className="font-medium">Consistent Trader</span>
-              </div>
-              <span>3,450 / 4,000 XP</span>
-            </div>
-            
-            <Progress value={86} className="h-2" />
-            
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>Next milestone: 60 days of trading activity</span>
-              <span>550 XP remaining</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      
-      {/* Badges & Achievements */}
-      <Tabs defaultValue="badges">
-        <TabsList>
-          <TabsTrigger value="badges">Badges</TabsTrigger>
-          <TabsTrigger value="challenges">Challenges</TabsTrigger>
-          <TabsTrigger value="milestones">Milestones</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="badges" className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AchievementCard 
-              title="Winning Streak" 
-              description="Win 5 trades in a row" 
-              icon={<TrendingUp />} 
-              progress={100}
-              unlocked={true}
-              date="Apr 15, 2023"
-              level={2}
-            />
-            <AchievementCard 
-              title="Sharp Shooter" 
-              description="Achieve 75% win rate over 20 trades" 
-              icon={<Target />} 
-              progress={100}
-              unlocked={true}
-              date="Apr 2, 2023" 
-              level={1}
-            />
-            <AchievementCard 
-              title="Playbook Master" 
-              description="Create 3 different playbooks and use each one successfully" 
-              icon={<BookOpen />} 
-              progress={100}
-              unlocked={true}
-              date="Mar 28, 2023"
-              level={1}
-            />
-            <AchievementCard 
-              title="Risk Manager" 
-              description="Maintain proper position sizing for 15 consecutive trades" 
-              icon={<Shield />} 
-              progress={100}
-              unlocked={true}
-              date="Mar 20, 2023"
-              level={1}
-            />
-            <AchievementCard 
-              title="Emotional Control" 
-              description="Complete 10 trades with positive emotional tags" 
-              icon={<Heart />} 
-              progress={70}
-              unlocked={false}
-              level={1}
-            />
-            <AchievementCard 
-              title="Profit Machine" 
-              description="Achieve 2:1 average reward-to-risk ratio across 10 trades" 
-              icon={<CircleDollarSign />} 
-              progress={45}
-              unlocked={false}
-              level={1}
-            />
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="challenges" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ChallengeCard 
-              title="Perfect Week" 
-              description="Log trades for 5 consecutive days and maintain a 60%+ win rate" 
-              reward="200 XP"
-              icon={<Calendar />}
-              progress={80}
-              daysLeft={1}
-            />
-            <ChallengeCard 
-              title="Strategy Mastery" 
-              description="Use the same playbook for 10 trades with at least 70% win rate" 
-              reward="350 XP"
-              icon={<BookOpen />}
-              progress={60}
-              daysLeft={5}
-            />
-            <ChallengeCard 
-              title="Risk Discipline" 
-              description="Keep all losses under 2% of account for 15 consecutive trades" 
-              reward="250 XP"
-              icon={<Shield />}
-              progress={33}
-              daysLeft={12}
-            />
-            <ChallengeCard 
-              title="Mindful Trading" 
-              description="Complete emotional tagging for every trade for 2 weeks" 
-              reward="150 XP"
-              icon={<Heart />}
-              progress={50}
-              daysLeft={7}
-            />
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="milestones" className="mt-6">
-          <div className="space-y-8">
-            <MilestoneItem 
-              title="Trading Consistency" 
-              icon={<Clock />}
-              milestones={[
-                { label: "5 days in a row", completed: true },
-                { label: "10 days in a row", completed: true },
-                { label: "30 days in a row", completed: false, progress: 27 },
-                { label: "100 days in a row", completed: false, progress: 27 },
-              ]}
-            />
-            
-            <MilestoneItem 
-              title="Win Rate Improvement" 
-              icon={<Target />}
-              milestones={[
-                { label: "50% win rate", completed: true },
-                { label: "60% win rate", completed: true },
-                { label: "70% win rate", completed: false, progress: 86 },
-                { label: "80% win rate", completed: false, progress: 0 },
-              ]}
-            />
-            
-            <MilestoneItem 
-              title="Playbook Development" 
-              icon={<BookOpen />}
-              milestones={[
-                { label: "Create first playbook", completed: true },
-                { label: "Create 3 playbooks", completed: true },
-                { label: "Create 5 playbooks", completed: false, progress: 60 },
-                { label: "Refine playbook 10 times", completed: false, progress: 40 },
-              ]}
-            />
-            
-            <MilestoneItem 
-              title="Trade Volume" 
-              icon={<BarChart2 />}
-              milestones={[
-                { label: "10 trades recorded", completed: true },
-                { label: "50 trades recorded", completed: false, progress: 84 },
-                { label: "100 trades recorded", completed: false, progress: 42 },
-                { label: "500 trades recorded", completed: false, progress: 8 },
-              ]}
-            />
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-interface SummaryCardProps {
-  title: string;
-  value: string;
-  icon: React.ReactNode;
-  description: string;
-}
-
-const SummaryCard = ({ title, value, icon, description }: SummaryCardProps) => {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
-          {icon}
-        </div>
-        <div className="mt-3">
-          <div className="text-2xl font-bold">{value}</div>
-          <p className="text-xs text-muted-foreground mt-1">{description}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+import React, { Suspense, useEffect } from 'react';
+import { useUserStore } from '../stores/userStore';
+import { useTradeStore } from '../stores/tradeStore';
+import { achievementService, achievements, Achievement } from '../lib/achievement-service';
+import { useAchievementProgress } from '../hooks/useAchievementProgress';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Progress } from '../components/ui/progress';
+import { Badge } from '../components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { BadgeCheck, Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ErrorBoundary } from '../components/ErrorBoundary';
+import { Skeleton } from '../components/ui/skeleton';
+import { useToast } from '../hooks/use-toast';
 
 interface AchievementCardProps {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
+  achievement: Achievement;
+  isUnlocked: boolean;
   progress: number;
-  unlocked: boolean;
-  date?: string;
-  level: number;
 }
 
-const AchievementCard = ({ title, description, icon, progress, unlocked, date, level }: AchievementCardProps) => {
-  return (
-    <Card className={cn(
-      "overflow-hidden border transition-all",
-      unlocked ? "border-primary/30" : "opacity-80"
-    )}>
-      <div className={cn(
-        "h-1",
-        unlocked ? "bg-primary" : "bg-muted"
-      )}></div>
+const AchievementCard = React.memo(({ achievement, isUnlocked, progress }: AchievementCardProps) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}
+  >
+    <Card className={`transition-all duration-300 ${isUnlocked ? 'border-primary shadow-lg' : 'hover:shadow-md'}`}>
       <CardContent className="p-6">
-        <div className="flex items-start gap-4">
-          <div className={cn(
-            "p-2 rounded-full",
-            unlocked ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
-          )}>
-            {icon}
+        <div className="flex items-center space-x-4">
+          <div
+            className={`p-3 rounded-full transition-colors duration-300 ${
+              isUnlocked ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
+            }`}
+          >
+            <span className="text-2xl">{achievement.icon}</span>
           </div>
-          <div className="space-y-1">
-            <div className="flex items-center">
-              <h3 className="font-medium">{title}</h3>
-              {level > 1 && (
-                <Badge className="ml-2 bg-accent text-accent-foreground">Level {level}</Badge>
-              )}
-            </div>
-            <p className="text-sm text-muted-foreground">{description}</p>
-            
-            {unlocked ? (
-              <div className="flex items-center text-xs text-primary mt-1">
-                <BadgeCheck className="h-3 w-3 mr-1" />
-                <span>Unlocked {date}</span>
+          <div className="space-y-1 flex-1">
+            <h3 className="font-medium">{achievement.title}</h3>
+            <p className="text-sm text-muted-foreground">{achievement.description}</p>
+            {isUnlocked ? (
+              <div className="flex items-center text-primary text-sm mt-2">
+                <BadgeCheck className="w-4 h-4 mr-1" />
+                <span>Unlocked</span>
               </div>
             ) : (
-              <div className="mt-2 space-y-1">
-                <Progress value={progress} className="h-1.5" />
-                <div className="text-xs text-muted-foreground text-right">
-                  {progress}% complete
-                </div>
+              <div className="space-y-1 mt-2">
+                <Progress value={progress} className="h-2" />
+                <p className="text-xs text-muted-foreground">{Math.round(progress)}% complete</p>
               </div>
             )}
           </div>
         </div>
       </CardContent>
     </Card>
-  );
-};
+  </motion.div>
+));
 
-interface ChallengeCardProps {
-  title: string;
-  description: string;
-  reward: string;
-  icon: React.ReactNode;
-  progress: number;
-  daysLeft: number;
-}
+AchievementCard.displayName = 'AchievementCard';
 
-const ChallengeCard = ({ title, description, reward, icon, progress, daysLeft }: ChallengeCardProps) => {
-  return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">{title}</CardTitle>
-          <Badge variant="outline" className="text-xs">
-            {daysLeft} {daysLeft === 1 ? "day" : "days"} left
-          </Badge>
-        </div>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <Progress value={progress} className="h-2" />
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-1 text-muted-foreground">
-              {icon}
-              <span>{progress}% complete</span>
-            </div>
-            <div className="flex items-center gap-1 text-primary font-medium">
-              <Award className="h-4 w-4" />
-              <span>{reward}</span>
-            </div>
+const LoadingSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[...Array(6)].map((_, i) => (
+      <Card key={i} className="p-6">
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-2 w-1/2" />
           </div>
         </div>
-      </CardContent>
-    </Card>
-  );
-};
+      </Card>
+    ))}
+  </div>
+);
 
-interface MilestoneItemProps {
-  title: string;
-  icon: React.ReactNode;
-  milestones: {
-    label: string;
-    completed: boolean;
-    progress?: number;
-  }[];
-}
+export const AchievementsPage = () => {
+  const { user } = useUserStore();
+  const { trades, isLoading: isTradesLoading, error: tradesError } = useTradeStore();
+  const { toast } = useToast();
+  const unlockedAchievements = achievementService.getUnlockedAchievements();
 
-const MilestoneItem = ({ title, icon, milestones }: MilestoneItemProps) => {
+  useEffect(() => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to view and track your achievements.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (tradesError) {
+      toast({
+        title: "Error Loading Data",
+        description: "There was a problem loading your trade data. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  }, [user, tradesError, toast]);
+
+  useEffect(() => {
+    if (!user || !trades.length) return;
+
+    // Check for newly unlocked achievements
+    const newlyUnlocked = achievements.filter(achievement => {
+      const wasUnlocked = unlockedAchievements.includes(achievement.id);
+      const progress = useAchievementProgress(achievement, trades);
+      return !wasUnlocked && progress >= 100;
+    });
+
+    newlyUnlocked.forEach(achievement => {
+      toast({
+        title: "Achievement Unlocked! 🎉",
+        description: `${achievement.title} - ${achievement.description}`,
+        variant: "default",
+      });
+    });
+  }, [trades, unlockedAchievements, toast, user]);
+
+  if (!user) {
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold">Please log in to view achievements</h1>
+      </div>
+    );
+  }
+
+  const nextLevelXP = (user.level + 1) * 1000;
+  const currentLevelXP = user.level * 1000;
+  const progress = ((user.experience - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-full bg-secondary/10 text-secondary">
-            {icon}
-          </div>
-          <CardTitle>{title}</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="relative">
-          {/* Milestone track */}
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-muted"></div>
-          
-          <div className="space-y-8 relative">
-            {milestones.map((milestone, index) => (
-              <div key={index} className="ml-8 relative">
-                {/* Milestone indicator */}
-                <div className={cn(
-                  "absolute -left-10 w-6 h-6 rounded-full flex items-center justify-center border-2",
-                  milestone.completed 
-                    ? "bg-primary text-primary-foreground border-primary" 
-                    : "bg-background border-muted"
-                )}>
-                  {milestone.completed ? (
-                    <BadgeCheck className="h-4 w-4" />
-                  ) : (
-                    <span className="text-xs font-medium">{index + 1}</span>
-                  )}
+    <ErrorBoundary>
+      <div className="container mx-auto p-4 space-y-6">
+        <motion.header
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl font-bold">Achievements</h1>
+          <p className="text-muted-foreground mt-1">Track your progress and unlock new milestones</p>
+        </motion.header>
+
+        {/* Level Progress */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Level Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between text-sm">
+                  <div className="flex items-center">
+                    <Badge className="mr-2">Level {user.level}</Badge>
+                    <span className="font-medium">Trader</span>
+                  </div>
+                  <span>{user.experience} / {nextLevelXP} XP</span>
                 </div>
-                
-                <div>
-                  <h4 className={cn(
-                    "font-medium",
-                    milestone.completed && "text-primary"
-                  )}>
-                    {milestone.label}
-                  </h4>
-                  
-                  {!milestone.completed && milestone.progress !== undefined && (
-                    <div className="mt-2 space-y-1">
-                      <Progress value={milestone.progress} className="h-1.5" />
-                      <div className="text-xs text-muted-foreground">
-                        {milestone.progress}% complete
-                      </div>
-                    </div>
-                  )}
-                  
-                  {milestone.completed && (
-                    <div className="flex items-center text-xs text-primary mt-1">
-                      <BadgeCheck className="h-3 w-3 mr-1" />
-                      <span>Completed</span>
-                    </div>
-                  )}
+                <Progress value={progress} className="h-2" />
+                <div className="text-sm text-muted-foreground">
+                  {nextLevelXP - user.experience} XP needed for next level
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Achievements */}
+        <Suspense fallback={<LoadingSkeleton />}>
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="all">All Achievements</TabsTrigger>
+              <TabsTrigger value="unlocked">Unlocked</TabsTrigger>
+              <TabsTrigger value="locked">Locked</TabsTrigger>
+            </TabsList>
+
+            <AnimatePresence mode="wait">
+              <TabsContent value="all" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {achievements.map((achievement) => {
+                    const isUnlocked = unlockedAchievements.includes(achievement.id);
+                    const achievementProgress = useAchievementProgress(achievement, trades);
+
+                    return (
+                      <ErrorBoundary key={achievement.id}>
+                        <AchievementCard
+                          achievement={achievement}
+                          isUnlocked={isUnlocked}
+                          progress={achievementProgress}
+                        />
+                      </ErrorBoundary>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="unlocked" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {achievements
+                    .filter((achievement) => unlockedAchievements.includes(achievement.id))
+                    .map((achievement) => (
+                      <AchievementCard
+                        key={achievement.id}
+                        achievement={achievement}
+                        isUnlocked={true}
+                        progress={100}
+                      />
+                    ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="locked" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {achievements
+                    .filter((achievement) => !unlockedAchievements.includes(achievement.id))
+                    .map((achievement) => {
+                      const achievementProgress = useAchievementProgress(achievement, trades);
+                      return (
+                        <AchievementCard
+                          key={achievement.id}
+                          achievement={achievement}
+                          isUnlocked={false}
+                          progress={achievementProgress}
+                        />
+                      );
+                    })}
+                </div>
+              </TabsContent>
+            </AnimatePresence>
+          </Tabs>
+        </Suspense>
+      </div>
+    </ErrorBoundary>
   );
 };
-
-export default Achievements;

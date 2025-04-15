@@ -1,0 +1,10 @@
+{
+  "projectId": "trade-wise-mentor-app",
+  "orgId": "your-org-id",
+  "settings": {
+    "framework": "vite",
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "devCommand": "npm run dev"
+  }
+} 

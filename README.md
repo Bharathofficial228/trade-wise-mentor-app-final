@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+# Trade Wise Mentor App
 
-## Project info
+A comprehensive trading journal and mentorship application that helps traders track their performance, unlock achievements, and receive AI-powered feedback on their trading decisions.
 
-**URL**: https://lovable.dev/projects/1f468c7f-0d05-4a9c-b1c7-4c896ab7f0a8
+## Features
 
-## How can I edit this code?
+- 📊 Trade Journal: Track and analyze your trades
+- 🏆 Achievement System: Gamified learning experience
+- 🤖 AI Mentor: Get personalized feedback on your trades
+- 📈 Performance Analytics: Track your progress
+- 🌓 Dark/Light Mode: Comfortable viewing experience
+- 🔔 Toast Notifications: Real-time feedback
+- 📱 Responsive Design: Works on all devices
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend Framework**: React with TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **Routing**: React Router
+- **Form Handling**: React Hook Form
+- **Data Visualization**: Recharts
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1f468c7f-0d05-4a9c-b1c7-4c896ab7f0a8) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/trade-wise-mentor-app-final.git
+cd trade-wise-mentor-app-final
+```
 
-**Use your preferred IDE**
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Build for production:
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+```
+src/
+├── components/     # Reusable UI components
+├── lib/           # Core services and utilities
+├── hooks/         # Custom React hooks
+├── pages/         # Application pages/routes
+├── stores/        # State management
+├── types/         # TypeScript type definitions
+└── styles/        # Global styles and themes
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Features in Detail
 
-## What technologies are used for this project?
+### Trade Journal
+- Log trades with detailed information
+- Track entry/exit points
+- Record emotions and strategy used
+- Add notes and screenshots
 
-This project is built with:
+### Achievement System
+- Progress-based achievements
+- Experience points and leveling
+- Trading streaks and milestones
+- Skill-based badges
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### AI Mentor
+- Trade analysis and feedback
+- Pattern recognition
+- Risk management suggestions
+- Emotional trading detection
 
-## How can I deploy this project?
+## Contributing
 
-Simply open [Lovable](https://lovable.dev/projects/1f468c7f-0d05-4a9c-b1c7-4c896ab7f0a8) and click on Share -> Publish.
+Feel free to submit issues and enhancement requests!
 
-## Can I connect a custom domain to my Lovable project?
+## License
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License - feel free to use this project for learning and development.
