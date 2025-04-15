@@ -6,12 +6,24 @@ import {
   Calendar as CalendarIcon, 
   TrendingUp, 
   TrendingDown,
-  Info
+  Info,
+  Edit,
+  X
 } from "lucide-react";
-import { format, addMonths, subMonths, isEqual, isToday, isFirstDayOfMonth, startOfMonth, endOfMonth, eachDayOfInterval, getDay } from "date-fns";
+import { format, addMonths, subMonths, isEqual, isToday, isFirstDayOfMonth, startOfMonth, endOfMonth, eachDayOfInterval, getDay, parseISO } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from "@/components/ui/dialog";
+import { useTrade, Trade } from "@/contexts/TradeContext";
 import { cn } from "@/lib/utils";
 
 // Mock trade data for the calendar
@@ -31,6 +43,12 @@ const mockTradesByDate = {
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTrades, setSelectedTrades] = useState<Trade[]>([]);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  
+  const navigate = useNavigate();
+  const { trades } = useTrade();
 
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
@@ -42,6 +60,43 @@ const CalendarPage = () => {
   
   // Calculate start day offset (0 = Sunday, 1 = Monday, etc.)
   const startDayOfWeek = getDay(monthStart);
+
+  // Group trades by date
+  const tradesByDate: Record<string, Trade[]> = {};
+  trades.forEach(trade => {
+    if (!tradesByDate[trade.date]) {
+      tradesByDate[trade.date] = [];
+    }
+    tradesByDate[trade.date].push(trade);
+  });
+
+  // Handle day click to show trades for that day
+  const handleDayClick = (dateStr: string) => {
+    const dayTrades = tradesByDate[dateStr] || [];
+    if (dayTrades.length > 0) {
+      setSelectedDate(dateStr);
+      setSelectedTrades(dayTrades);
+      setIsDetailsOpen(true);
+    }
+  };
+
+  // Navigate to edit a specific trade
+  const handleEditTrade = (tradeId: string) => {
+    setIsDetailsOpen(false);
+    navigate(`/trades/${tradeId}`);
+  };
+
+  // Calculate stats for a specific day
+  const getDayStats = (dateStr: string) => {
+    const dayTrades = tradesByDate[dateStr] || [];
+    if (dayTrades.length === 0) return null;
+
+    const wins = dayTrades.filter(t => t.outcome === "profit").length;
+    const total = dayTrades.length;
+    const profit = dayTrades.reduce((sum, t) => sum + t.pl, 0);
+
+    return { wins, total, profit };
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -87,17 +142,18 @@ const CalendarPage = () => {
             {/* Calendar days */}
             {daysInMonth.map((day) => {
               const dateStr = format(day, "yyyy-MM-dd");
-              const dayTrades = mockTradesByDate[dateStr];
-              const hasActivity = !!dayTrades;
+              const dayStats = getDayStats(dateStr);
+              const hasActivity = !!dayStats;
               
               return (
                 <div 
                   key={dateStr}
                   className={cn(
-                    "aspect-square p-1 border rounded-md",
+                    "aspect-square p-1 border rounded-md cursor-pointer",
                     isToday(day) ? "border-primary/50 bg-primary/5" : "border-transparent",
                     hasActivity ? "hover:border-primary/30" : "hover:border-muted/30"
                   )}
+                  onClick={() => handleDayClick(dateStr)}
                 >
                   <div className="h-full w-full">
                     {/* Date number */}
@@ -116,16 +172,16 @@ const CalendarPage = () => {
                           <TooltipTrigger asChild>
                             <div className={cn(
                               "h-3/4 rounded-sm flex items-center justify-center p-1",
-                              dayTrades.profit > 0 ? "bg-profit/10 text-profit" : "bg-loss/10 text-loss"
+                              dayStats.profit > 0 ? "bg-profit/10 text-profit" : "bg-loss/10 text-loss"
                             )}>
                               <div className="flex flex-col items-center justify-center">
-                                {dayTrades.profit > 0 ? (
+                                {dayStats.profit > 0 ? (
                                   <TrendingUp className="h-5 w-5" />
                                 ) : (
                                   <TrendingDown className="h-5 w-5" />
                                 )}
                                 <div className="text-xs font-medium mt-1">
-                                  {dayTrades.wins}/{dayTrades.wins + dayTrades.losses}
+                                  {dayStats.wins}/{dayStats.total}
                                 </div>
                               </div>
                             </div>
@@ -136,16 +192,16 @@ const CalendarPage = () => {
                               <p>
                                 <span className="text-muted-foreground">Win/Total:</span>{" "}
                                 <span className="font-medium">
-                                  {dayTrades.wins}/{dayTrades.wins + dayTrades.losses}
+                                  {dayStats.wins}/{dayStats.total}
                                 </span>
                               </p>
                               <p>
                                 <span className="text-muted-foreground">P/L:</span>{" "}
                                 <span className={cn(
                                   "font-medium",
-                                  dayTrades.profit > 0 ? "text-profit" : "text-loss"
+                                  dayStats.profit > 0 ? "text-profit" : "text-loss"
                                 )}>
-                                  ${dayTrades.profit.toFixed(2)}
+                                  ${dayStats.profit.toFixed(2)}
                                 </span>
                               </p>
                             </div>
@@ -223,6 +279,112 @@ const CalendarPage = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Trade Details Dialog */}
+      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center">
+              Trades on {selectedDate && format(parseISO(selectedDate), "MMMM d, yyyy")}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedTrades.length} trade{selectedTrades.length !== 1 ? 's' : ''} found for this day
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="max-h-[60vh] overflow-y-auto space-y-4 py-4">
+            {selectedTrades.map((trade) => (
+              <Card key={trade.id} className={cn(
+                "overflow-hidden",
+                trade.outcome === "profit" ? "border-profit/30" : "border-loss/30"
+              )}>
+                <div className={cn(
+                  "h-2",
+                  trade.outcome === "profit" ? "bg-profit" : "bg-loss"
+                )} />
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="flex items-center">
+                        <h3 className="text-lg font-bold">{trade.symbol}</h3>
+                        <span className={cn(
+                          "ml-2 text-xs px-2 py-0.5 rounded-full",
+                          trade.type === "Long" ? "bg-profit/10 text-profit" : "bg-loss/10 text-loss"
+                        )}>
+                          {trade.type}
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground text-sm">{trade.strategy}</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      className="h-8 w-8" 
+                      onClick={() => handleEditTrade(trade.id)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Entry</p>
+                      <p className="font-medium">${trade.entry.toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Exit</p>
+                      <p className="font-medium">${trade.exit.toFixed(2)}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <p className="text-xs text-muted-foreground">P/L</p>
+                    <p className={cn(
+                      "font-medium text-lg",
+                      trade.outcome === "profit" ? "text-profit" : "text-loss"
+                    )}>
+                      ${trade.pl.toFixed(2)} ({trade.plPercentage.toFixed(2)}%)
+                    </p>
+                  </div>
+                  
+                  {trade.notes && (
+                    <div className="mt-4 p-3 bg-muted/20 rounded-md">
+                      <p className="text-xs text-muted-foreground mb-1">Notes</p>
+                      <p className="text-sm">{trade.notes}</p>
+                    </div>
+                  )}
+                  
+                  <div className="mt-4 flex items-center text-sm">
+                    <div className="flex items-center mr-6">
+                      <span className="text-muted-foreground mr-2">Emotion:</span>
+                      <span>{trade.emotion}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <DialogFooter className="sm:justify-between">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDetailsOpen(false)}
+              className="flex items-center gap-2"
+            >
+              <X className="h-4 w-4" />
+              Close
+            </Button>
+            {selectedTrades.length > 0 && (
+              <Button 
+                onClick={() => navigate("/trades/new")}
+                className="flex items-center gap-2"
+              >
+                Add New Trade
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
