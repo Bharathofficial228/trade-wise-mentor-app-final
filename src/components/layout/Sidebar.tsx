@@ -76,7 +76,7 @@ interface NavItemsProps {
 
 const NavItems = ({ collapsed }: NavItemsProps) => {
   const navItems = [
-    { path: "/", label: "Dashboard", icon: Home },
+    { path: "/dashboard", label: "Dashboard", icon: Home },
     { path: "/trades", label: "Trades", icon: LineChart },
     { path: "/playbooks", label: "Playbooks", icon: BookOpen },
     { path: "/calendar", label: "Calendar", icon: Calendar },

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,22 +64,22 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
                 profit: {
-                    DEFAULT: 'hsl(var(--primary))',
+                    DEFAULT: 'hsl(var(--profit))',
                     light: 'hsl(142 76% 90%)',
                     dark: 'hsl(142 76% 25%)'
                 },
                 loss: {
-                    DEFAULT: 'hsl(var(--destructive))',
+                    DEFAULT: 'hsl(var(--loss))',
                     light: 'hsl(0 84% 90%)',
                     dark: 'hsl(0 84% 35%)'
                 },
                 neutral: {
-                    DEFAULT: 'hsl(var(--secondary))',
+                    DEFAULT: 'hsl(var(--neutral))',
                     light: 'hsl(214 60% 90%)',
                     dark: 'hsl(214 60% 30%)'
                 },
                 insight: {
-                    DEFAULT: 'hsl(var(--accent))',
+                    DEFAULT: 'hsl(var(--insight))',
                     light: 'hsl(262 83% 90%)',
                     dark: 'hsl(262 83% 40%)'
                 }

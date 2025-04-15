@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,102 +6,114 @@
 @layer base {
   :root {
     /* Base colors */
-    --background: 210 40% 98%;
-    --foreground: 214 60% 15%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
 
     /* Card */
     --card: 0 0% 100%;
-    --card-foreground: 214 60% 15%;
+    --card-foreground: 0 0% 10%;
 
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 214 60% 15%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Primary - Green for profit */
-    --primary: 142 76% 36%;
+    /* Primary */
+    --primary: 0 0% 0%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Blue for neutral states */
-    --secondary: 214 60% 48%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
 
     /* Muted */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    /* Accent - Purple for emphasis */
-    --accent: 262 83% 58%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent */
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 10%;
 
-    /* Destructive - Red for loss */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Keep for error states */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
     /* Borders and inputs */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 0 0% 80%;
 
     --radius: 0.5rem;
 
     /* Sidebar */
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 142 76% 36%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 83% 58%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 142 76% 36%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 100%;
+
+    /* Custom colors */
+    --profit: 142 76% 36%;
+    --loss: 0 84% 60%;
+    --neutral: 214 60% 48%;
+    --insight: 262 83% 58%;
   }
 
   .dark {
     /* Base colors */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
 
     /* Card */
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
 
     /* Popover */
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Primary - Green for profit */
-    --primary: 142 70% 45%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary */
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 5%;
 
-    /* Secondary - Blue for neutral states */
-    --secondary: 214 60% 48%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary */
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
 
     /* Muted */
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    /* Accent - Purple for emphasis */
-    --accent: 262 83% 65%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent */
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
 
-    /* Destructive - Red for loss */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Keep for error states */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
     /* Borders and inputs */
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 80%;
     
     /* Sidebar */
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 142 76% 36%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 83% 58%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 142 76% 36%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 100%;
+
+    /* Custom colors */
+    --profit: 142 76% 45%;
+    --loss: 0 84% 60%;
+    --neutral: 214 60% 48%;
+    --insight: 262 83% 65%;
   }
 }
 
@@ -111,5 +124,16 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "salt", "ss01", "cv01", "cv02", "cv03";
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50;
+  }
+
+  .emphasis-gradient {
+    @apply bg-gradient-to-br from-primary to-primary/80;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
